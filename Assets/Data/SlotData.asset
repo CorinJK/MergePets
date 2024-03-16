@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c5f4fb2c9cb433e8ce51a42bf79ed8e, type: 3}
+  m_Name: SlotData
+  m_EditorClassIdentifier: 
+  slotFullness:
+  - degree: 1
+    item: {fileID: 11400000, guid: 28926c48f1800c645b26a2c0882905bb, type: 2}
+  - degree: 0
+    item: {fileID: 0}
+  - degree: 2
+    item: {fileID: 11400000, guid: 2fe2f7b4796b6c640a4e68c6e4b0f87a, type: 2}
+  - degree: 0
+    item: {fileID: 0}
+  - degree: 0
+    item: {fileID: 0}
+  - degree: 0
+    item: {fileID: 0}
+  <Size>k__BackingField: 6
