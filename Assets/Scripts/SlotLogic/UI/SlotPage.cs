@@ -10,10 +10,9 @@ namespace SlotLogic.UI
         [SerializeField] private MouseFollower mouseFollower;
         
         [SerializeField] private RectTransform grid;
-        [SerializeField] private Sprite image, image2;
 
         public event Action<int> OnStartDrag;
-        public event Action<int, int> OnSwapItems;
+        public event Action<int, int> OnDropItems;
         
         private List<SlotItem> listOfSlots = new List<SlotItem>();
 
@@ -29,7 +28,7 @@ namespace SlotLogic.UI
 
                 slotItem.OnItemClicked += HandleItemSelection;
                 slotItem.OnItemBeginDrag += HandleBeginDrag;
-                slotItem.OnItemDroppedOn += HandleSwamp;
+                slotItem.OnItemDroppedOn += HandleDrop;
                 slotItem.OnItemEndDrag += HandleEndDrag;
             }
         }
@@ -47,21 +46,14 @@ namespace SlotLogic.UI
             mouseFollower.Toggle(false);
         }
 
-        private void Start()
-        {
-            // listOfSlots[0].SetData(image, 1);
-            // listOfSlots[1].SetData(image2, 2);
-        }
-
-        private void HandleSwamp(SlotItem slotItem)
+        private void HandleDrop(SlotItem slotItem)
         {
             int index = listOfSlots.IndexOf(slotItem);
             if (index == -1)
             {
                 return;
             }
-            
-            OnSwapItems?.Invoke(currentDragItem, index);
+            OnDropItems?.Invoke(currentDragItem, index);
         }
 
         private void HandleBeginDrag(SlotItem slotItem)

@@ -5,7 +5,7 @@ namespace SlotLogic.Data
     [CreateAssetMenu]
     public class Item : ScriptableObject
     {
-        public int ID => GetInstanceID();
+        [field: SerializeField] public int ID { get; set; }
         
         [field: SerializeField] public bool IsMerge { get; set; }
         

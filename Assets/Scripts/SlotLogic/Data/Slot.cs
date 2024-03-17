@@ -9,6 +9,7 @@ namespace SlotLogic.Data
     public class Slot : ScriptableObject
     {
         [SerializeField] private List<EquippedItem> equippedItems;
+        [SerializeField] private List<Item> mergeProgress;
         
         [field: SerializeField] public int Size { get; private set; } = 6;
 
@@ -23,7 +24,7 @@ namespace SlotLogic.Data
             }
         }
 
-        public void AddItem(Item item, int degree)
+        public void AddItem(Item item)
         {
             for (int i = 0; i < equippedItems.Count; i++)
             {
@@ -37,8 +38,8 @@ namespace SlotLogic.Data
                     equippedItems[i] = new EquippedItem
                     {
                         item = item,
-                        degree = degree,
                     };
+                    InformAboutChange();
                     return;
                 }
             }
@@ -51,7 +52,21 @@ namespace SlotLogic.Data
 
         public void AddItem(EquippedItem item)
         {
-            AddItem(item.item, item.degree);
+            AddItem(item.item);
+        }
+
+        public void RemoveItem(int itemIndex)
+        {
+            if (equippedItems.Count > itemIndex)
+            {
+                if (equippedItems[itemIndex].IsEmpty)
+                {
+                    return;
+                }
+                
+                equippedItems[itemIndex] = EquippedItem.GetEmptyItem();
+                InformAboutChange();
+            }
         }
         
         public Dictionary<int, EquippedItem> GetCurrentSlotState()
@@ -79,6 +94,25 @@ namespace SlotLogic.Data
             EquippedItem item1 = equippedItems[itemIndex1];
             equippedItems[itemIndex1] = equippedItems[itemIndex2];
             equippedItems[itemIndex2] = item1;
+            
+            InformAboutChange();
+        }
+
+        public void ProgressDegreeItems(int itemIndex1, int itemIndex2)
+        {
+            EquippedItem item1 = equippedItems[itemIndex1];
+            EquippedItem item2 = equippedItems[itemIndex2];
+
+            RemoveItem(itemIndex1);
+            RemoveItem(itemIndex2);
+
+            int indexMergeItem = item2.item.ID;
+            
+            equippedItems[itemIndex2] = new EquippedItem
+            {
+                item = mergeProgress[indexMergeItem++],
+            };
+
             InformAboutChange();
         }
 
@@ -91,24 +125,13 @@ namespace SlotLogic.Data
     [Serializable]
     public struct EquippedItem
     {
-        public int degree;
         public Item item;
 
         public bool IsEmpty => item == null;
 
-        public EquippedItem ChangeDegree(int newDegree)
-        {
-            return new EquippedItem
-            {
-                item= this.item,
-                degree = newDegree,
-            };
-        }
-        
         public static EquippedItem GetEmptyItem() => new EquippedItem()
         {
             item = null,
-            degree = 0,
         };
     }
 }

@@ -22,14 +22,14 @@ namespace SlotLogic
         {
             foreach (var item in slotData.GetCurrentSlotState())
             {
-                slotPage.UpdateData(item.Key, item.Value.item.ItemSprite, item.Value.degree);
+                slotPage.UpdateData(item.Key, item.Value.item.ItemSprite, item.Value.item.ID);
             }
         }
 
         private void PrepareSlots()
         {
             slotPage.InitializeSlot(slotData.Size);
-            slotPage.OnSwapItems += HandleSwapItems;
+            slotPage.OnDropItems += HandleDropItems;
             slotPage.OnStartDrag += HandleDrag;
         }
 
@@ -54,7 +54,7 @@ namespace SlotLogic
 
             foreach (var item in slotState)
             {
-                slotPage.UpdateData(item.Key, item.Value.item.ItemSprite, item.Value.degree);
+                slotPage.UpdateData(item.Key, item.Value.item.ItemSprite, item.Value.item.ID);
             }
         }
 
@@ -66,12 +66,22 @@ namespace SlotLogic
                 return;
             }
 
-            slotPage.CreateDragItem(equippedItem.item.ItemSprite, equippedItem.degree);
+            slotPage.CreateDragItem(equippedItem.item.ItemSprite, equippedItem.item.ID);
         }
 
-        private void HandleSwapItems(int itemIndex_1, int itemIndex_2)
+        private void HandleDropItems(int itemIndex1, int itemIndex2)
         {
-            slotData.SwapItems(itemIndex_1, itemIndex_2);
+            EquippedItem equippedItem1 = slotData.GetItemAt(itemIndex1);
+            EquippedItem equippedItem2 = slotData.GetItemAt(itemIndex2);
+            
+            if (!equippedItem1.IsEmpty && !equippedItem2.IsEmpty && equippedItem1.item.ID == equippedItem2.item.ID)
+            {
+                    slotData.ProgressDegreeItems(itemIndex1, itemIndex2);
+            }
+            else
+            {
+                slotData.SwapItems(itemIndex1, itemIndex2);
+            }
         }
     }
 }

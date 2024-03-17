@@ -12,17 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c5f4fb2c9cb433e8ce51a42bf79ed8e, type: 3}
   m_Name: SlotData
   m_EditorClassIdentifier: 
-  slotFullness:
-  - degree: 1
-    item: {fileID: 11400000, guid: 28926c48f1800c645b26a2c0882905bb, type: 2}
-  - degree: 0
-    item: {fileID: 0}
-  - degree: 2
-    item: {fileID: 11400000, guid: 2fe2f7b4796b6c640a4e68c6e4b0f87a, type: 2}
-  - degree: 0
-    item: {fileID: 0}
-  - degree: 0
-    item: {fileID: 0}
-  - degree: 0
-    item: {fileID: 0}
+  equippedItems:
+  - item: {fileID: 11400000, guid: a6acb5a63f5fb8442ac92c189cf41a21, type: 2}
+  - item: {fileID: 11400000, guid: 7c2fe57da2f73fe41994c5317c6bf7c9, type: 2}
+  - item: {fileID: 11400000, guid: 7c2fe57da2f73fe41994c5317c6bf7c9, type: 2}
+  - item: {fileID: 11400000, guid: d1e501f328fe41d42bfaa895183d7ade, type: 2}
+  - item: {fileID: 0}
+  - item: {fileID: 11400000, guid: 2fe2f7b4796b6c640a4e68c6e4b0f87a, type: 2}
+  mergeProgress:
+  - {fileID: 11400000, guid: 28926c48f1800c645b26a2c0882905bb, type: 2}
+  - {fileID: 11400000, guid: 2fe2f7b4796b6c640a4e68c6e4b0f87a, type: 2}
+  - {fileID: 11400000, guid: d1e501f328fe41d42bfaa895183d7ade, type: 2}
+  - {fileID: 11400000, guid: 7c2fe57da2f73fe41994c5317c6bf7c9, type: 2}
+  - {fileID: 11400000, guid: a6acb5a63f5fb8442ac92c189cf41a21, type: 2}
+  - {fileID: 11400000, guid: c67086167a18de046b22f96e633f1ac1, type: 2}
+  - {fileID: 11400000, guid: 45da6b1476f51a841bc50beaafa70fa1, type: 2}
+  - {fileID: 11400000, guid: 579f2574284428843b555e78a3a7fd3d, type: 2}
+  - {fileID: 11400000, guid: c05cbe781d1764545b01b759a037a1ae, type: 2}
+  - {fileID: 11400000, guid: af042635195efcd4d86db201d603e3a8, type: 2}
   <Size>k__BackingField: 6
