@@ -10,8 +10,9 @@ namespace SlotLogic.UI
     {
         [SerializeField] private Image itemImage;
         [SerializeField] private TMP_Text degreeText;
-
-        public event Action<SlotItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag, OnItemEndDrag;
+        
+        public event Action<SlotItem> OnItemClicked, OnItemDroppedOn, OnItemBeginDrag;
+        public event Action<PointerEventData> OnItemEndDrag;
 
         private bool empty = true;
 
@@ -50,7 +51,7 @@ namespace SlotLogic.UI
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            OnItemEndDrag?.Invoke(this);
+            OnItemEndDrag?.Invoke(eventData);
         }
 
         public void OnDrop(PointerEventData eventData)

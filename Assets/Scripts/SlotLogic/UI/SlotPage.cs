@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace SlotLogic.UI
 {
     public class SlotPage : MonoBehaviour
     {
         [SerializeField] private SlotItem slotPrefab;
+        [SerializeField] private TrackPage trackPage;
         [SerializeField] private MouseFollower mouseFollower;
         
         [SerializeField] private RectTransform grid;
-
-        public event Action<int> OnStartDrag;
-        public event Action<int, int> OnDropItems;
-        
         private List<SlotItem> listOfSlots = new List<SlotItem>();
 
+        public event Action<int> OnStartDrag, OnStartRun;
+        public event Action<int, int> OnDropItems;
         private int currentDragItem = -1;
         
         public void InitializeSlot(int slotCount)
@@ -40,20 +40,11 @@ namespace SlotLogic.UI
                 listOfSlots[itemIndex].SetData(itemSprite, degree);
             }
         }
-        
+
         private void Awake()
         {
             mouseFollower.Toggle(false);
-        }
-
-        private void HandleDrop(SlotItem slotItem)
-        {
-            int index = listOfSlots.IndexOf(slotItem);
-            if (index == -1)
-            {
-                return;
-            }
-            OnDropItems?.Invoke(currentDragItem, index);
+            trackPage.OnItemStartRun += HandleStartRun;
         }
 
         private void HandleBeginDrag(SlotItem slotItem)
@@ -73,15 +64,31 @@ namespace SlotLogic.UI
             mouseFollower.Toggle(true);
             mouseFollower.SetData(sprite, degree);
         }
-        
-        private void HandleEndDrag(SlotItem slotItem)
+
+        private void HandleDrop(SlotItem slotItem)
+        {
+            int index = listOfSlots.IndexOf(slotItem);
+
+            if (index == -1)
+            {
+                return;
+            }
+            OnDropItems?.Invoke(currentDragItem, index);
+        }
+
+        private void HandleStartRun()
+        {
+            OnStartRun?.Invoke(currentDragItem);
+        }
+
+        private void HandleEndDrag(PointerEventData eventData)
         {
             ResetDragItem();
         }
 
         private void HandleItemSelection(SlotItem slotItem)
         {
-            Debug.Log("Click");
+            //Debug.Log("Click");
         }
 
         private void ResetDragItem()

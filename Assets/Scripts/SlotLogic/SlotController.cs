@@ -8,6 +8,7 @@ namespace SlotLogic
     public class SlotController : MonoBehaviour
     {
         [SerializeField] private SlotPage slotPage;
+        [SerializeField] private TrackPage trackPage;
         [SerializeField] private Slot slotData;
 
         public List<EquippedItem> equippedItems = new List<EquippedItem>();
@@ -28,9 +29,12 @@ namespace SlotLogic
 
         private void PrepareSlots()
         {
-            slotPage.InitializeSlot(slotData.Size);
+            slotPage.InitializeSlot(slotData.SizeSlot);
+            trackPage.InitializeTrackItem(slotData.SizeTrack);
+            
             slotPage.OnDropItems += HandleDropItems;
             slotPage.OnStartDrag += HandleDrag;
+            slotPage.OnStartRun += HandleStartRun;
         }
 
         private void PrepareSlotsData()
@@ -69,12 +73,27 @@ namespace SlotLogic
             slotPage.CreateDragItem(equippedItem.item.ItemSprite, equippedItem.item.ID);
         }
 
+        private void HandleStartRun(int itemIndex)
+        {
+            //Debug.Log("HandleStartRun");
+            
+            EquippedItem equippedItem = slotData.GetItemAt(itemIndex);
+            if (equippedItem.IsEmpty)
+            {
+                return;
+            }
+
+            //Debug.Log(equippedItem.item.ID + " + " + equippedItem.item.Profit);
+            
+            trackPage.AddRunCat(equippedItem.item.ItemSprite, equippedItem.item.Profit);
+        }
+
         private void HandleDropItems(int itemIndex1, int itemIndex2)
         {
             EquippedItem equippedItem1 = slotData.GetItemAt(itemIndex1);
             EquippedItem equippedItem2 = slotData.GetItemAt(itemIndex2);
             
-            if (!equippedItem1.IsEmpty && !equippedItem2.IsEmpty && equippedItem1.item.ID == equippedItem2.item.ID)
+            if (!equippedItem1.IsEmpty && !equippedItem2.IsEmpty && equippedItem1.item.ID == equippedItem2.item.ID && itemIndex1 != itemIndex2)
             {
                     slotData.ProgressDegreeItems(itemIndex1, itemIndex2);
             }
@@ -82,6 +101,14 @@ namespace SlotLogic
             {
                 slotData.SwapItems(itemIndex1, itemIndex2);
             }
+        }
+
+        private void OnDisable()
+        {
+            slotPage.OnDropItems -= HandleDropItems;
+            slotPage.OnStartDrag -= HandleDrag;
+            slotPage.OnStartRun -= HandleStartRun;
+            slotData.OnSlotUpdated -= UpdateSlot;
         }
     }
 }

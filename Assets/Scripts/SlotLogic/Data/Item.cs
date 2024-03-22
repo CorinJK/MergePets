@@ -11,6 +11,8 @@ namespace SlotLogic.Data
         
         [field: SerializeField] public string Name { get; set; }
         
+        [field: SerializeField] public int Profit { get; set; }
+        
         [field: SerializeField] public Sprite ItemSprite { get; set; }
     }
 }

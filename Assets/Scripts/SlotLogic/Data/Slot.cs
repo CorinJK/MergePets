@@ -11,14 +11,15 @@ namespace SlotLogic.Data
         [SerializeField] private List<EquippedItem> equippedItems;
         [SerializeField] private List<Item> mergeProgress;
         
-        [field: SerializeField] public int Size { get; private set; } = 6;
+        [field: SerializeField] public int SizeSlot { get; private set; } = 6;
+        [field: SerializeField] public int SizeTrack { get; private set; } = 3;
 
         public event Action<Dictionary<int, EquippedItem>> OnSlotUpdated;
         
         public void Initialize()
         {
             equippedItems = new List<EquippedItem>();
-            for (int i = 0; i < Size; i++)
+            for (int i = 0; i < SizeSlot; i++)
             {
                 equippedItems.Add(EquippedItem.GetEmptyItem());
             }

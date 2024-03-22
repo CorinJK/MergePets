@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5436165390423775082}
   - component: {fileID: 7131130175012536905}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: SlotItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,6 +91,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemImage: {fileID: 1768962784239298013}
   degreeText: {fileID: 19770597480784526}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &2058807715917779744
 GameObject:
   m_ObjectHideFlags: 0
