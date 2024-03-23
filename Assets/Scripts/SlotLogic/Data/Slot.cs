@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SlotLogic.Data
 {
@@ -40,6 +41,7 @@ namespace SlotLogic.Data
                     equippedItems[i] = new EquippedItem
                     {
                         item = item,
+                        sprite = item.ItemSprite,
                         IsDrag = true,
                         UniqueId = new UniqueId(),
                     };
@@ -91,12 +93,14 @@ namespace SlotLogic.Data
         public void CreateRunCat(int itemIndex)
         {
             EquippedItem item = equippedItems[itemIndex];
-
+            RemoveItem(itemIndex);
+            
             if (item.IsDrag)
             {
                 equippedItems[itemIndex] = new EquippedItem
                 {
                     item = item.item,
+                    sprite = item.item.ItemSpriteOff,
                     IsDrag = false,
                     UniqueId = item.UniqueId,
                 };
@@ -108,12 +112,14 @@ namespace SlotLogic.Data
         public void ReturnRunCat(int itemIndex)
         {
             EquippedItem item = equippedItems[itemIndex];
-
+            RemoveItem(itemIndex);
+            
             if (!item.IsDrag)
             {
                 equippedItems[itemIndex] = new EquippedItem
                 {
                     item = item.item,
+                    sprite = item.item.ItemSprite,
                     IsDrag = true,
                     UniqueId = item.UniqueId,
                 };
@@ -140,10 +146,12 @@ namespace SlotLogic.Data
             RemoveItem(itemIndex2);
 
             int indexMergeItem = item2.item.ID;
+            Item item = mergeProgress[indexMergeItem++];
             
             equippedItems[itemIndex2] = new EquippedItem
             {
-                item = mergeProgress[indexMergeItem++],
+                item = item,
+                sprite = item.ItemSprite,
                 IsDrag = true,
                 UniqueId = new UniqueId(),
             };
@@ -166,6 +174,7 @@ namespace SlotLogic.Data
     public struct EquippedItem
     {
         public Item item;
+        public Sprite sprite;
         public bool IsDrag;
         public UniqueId UniqueId;
         
@@ -174,6 +183,8 @@ namespace SlotLogic.Data
         public static EquippedItem GetEmptyItem() => new EquippedItem()
         {
             item = null,
+            sprite = null,
+            IsDrag = true,
             UniqueId = null,
         };
     }

@@ -23,7 +23,7 @@ namespace SlotLogic
         {
             foreach (var item in slotData.GetCurrentSlotState())
             {
-                slotPage.UpdateData(item.Key, item.Value.item.ItemSprite, item.Value.item.ID);
+                slotPage.UpdateData(item.Key, item.Value.sprite, item.Value.item.ID);
             }
         }
 
@@ -59,7 +59,7 @@ namespace SlotLogic
 
             foreach (var item in slotState)
             {
-                slotPage.UpdateData(item.Key, item.Value.item.ItemSprite, item.Value.item.ID);
+                slotPage.UpdateData(item.Key, item.Value.sprite, item.Value.item.ID);
             }
         }
 
@@ -71,7 +71,7 @@ namespace SlotLogic
                 return;
             }
 
-            slotPage.CreateDragItem(equippedItem.item.ItemSprite, equippedItem.item.ID);
+            slotPage.CreateDragItem(equippedItem.sprite, equippedItem.item.ID);
         }
 
         private void HandleStartRun(int itemIndex)
