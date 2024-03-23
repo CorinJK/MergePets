@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cat_8
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 8
-  <IsMerge>k__BackingField: 1
   <Name>k__BackingField: Vinsent
   <Profit>k__BackingField: 4620
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: a6af2bf3c1e7c3644b9b70f0256679fc, type: 3}
+  <ItemSpriteOff>k__BackingField: {fileID: 21300000, guid: b44e46c063325f34e80cac318c6e812f, type: 3}

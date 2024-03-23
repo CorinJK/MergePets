@@ -1,3 +1,4 @@
+using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace SlotLogic.UI
         [SerializeField] private Image image;
         [SerializeField] private int profit;
 
+        public UniqueId UniqueId;
         public bool IsEmpty = true;
         
         private void Awake()
@@ -15,18 +17,20 @@ namespace SlotLogic.UI
             ResetData();
         }
 
-        private void ResetData()
+        public void ResetData()
         {
             IsEmpty = true;
+            UniqueId = null;
             image.gameObject.SetActive(false);
         }
 
-        public void SetData(Sprite spriteItem, int profitItem)
+        public void SetData(Sprite spriteItem, int profitItem, UniqueId uniqueId)
         {
             image.gameObject.SetActive(true);
             IsEmpty = false;
             image.sprite = spriteItem;
             profit = profitItem;
+            UniqueId = uniqueId;
         }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cat_4
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 4
-  <IsMerge>k__BackingField: 1
   <Name>k__BackingField: Sofa
   <Profit>k__BackingField: 139
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: da5c1d0a3b76d9d4db876cfa77bdfcdd, type: 3}
+  <ItemSpriteOff>k__BackingField: {fileID: 21300000, guid: 2311c365a482bc14298d1d47cbd5e797, type: 3}

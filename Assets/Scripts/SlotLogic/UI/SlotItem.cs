@@ -61,7 +61,6 @@ namespace SlotLogic.UI
 
         public void OnDrag(PointerEventData eventData)
         {
-            
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using UnityEngine;
 
 namespace SlotLogic.Data
@@ -39,16 +40,13 @@ namespace SlotLogic.Data
                     equippedItems[i] = new EquippedItem
                     {
                         item = item,
+                        IsDrag = true,
+                        UniqueId = new UniqueId(),
                     };
                     InformAboutChange();
                     return;
                 }
             }
-        }
-
-        private bool IsGridFull()
-        {
-            return equippedItems.Where(item => item.IsEmpty).Any() == false;
         }
 
         public void AddItem(EquippedItem item)
@@ -69,7 +67,7 @@ namespace SlotLogic.Data
                 InformAboutChange();
             }
         }
-        
+
         public Dictionary<int, EquippedItem> GetCurrentSlotState()
         {
             Dictionary<int, EquippedItem> returnValue = new Dictionary<int, EquippedItem>();
@@ -90,6 +88,40 @@ namespace SlotLogic.Data
             return equippedItems[itemIndex];
         }
 
+        public void CreateRunCat(int itemIndex)
+        {
+            EquippedItem item = equippedItems[itemIndex];
+
+            if (item.IsDrag)
+            {
+                equippedItems[itemIndex] = new EquippedItem
+                {
+                    item = item.item,
+                    IsDrag = false,
+                    UniqueId = item.UniqueId,
+                };
+                
+                InformAboutChange();
+            }
+        }
+
+        public void ReturnRunCat(int itemIndex)
+        {
+            EquippedItem item = equippedItems[itemIndex];
+
+            if (!item.IsDrag)
+            {
+                equippedItems[itemIndex] = new EquippedItem
+                {
+                    item = item.item,
+                    IsDrag = true,
+                    UniqueId = item.UniqueId,
+                };
+                
+                InformAboutChange();
+            }
+        }
+        
         public void SwapItems(int itemIndex1, int itemIndex2)
         {
             EquippedItem item1 = equippedItems[itemIndex1];
@@ -112,9 +144,16 @@ namespace SlotLogic.Data
             equippedItems[itemIndex2] = new EquippedItem
             {
                 item = mergeProgress[indexMergeItem++],
+                IsDrag = true,
+                UniqueId = new UniqueId(),
             };
 
             InformAboutChange();
+        }
+
+        private bool IsGridFull()
+        {
+            return equippedItems.Where(item => item.IsEmpty).Any() == false;
         }
 
         private void InformAboutChange()
@@ -127,12 +166,15 @@ namespace SlotLogic.Data
     public struct EquippedItem
     {
         public Item item;
-
+        public bool IsDrag;
+        public UniqueId UniqueId;
+        
         public bool IsEmpty => item == null;
-
+        
         public static EquippedItem GetEmptyItem() => new EquippedItem()
         {
             item = null,
+            UniqueId = null,
         };
     }
 }

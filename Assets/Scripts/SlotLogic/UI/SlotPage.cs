@@ -14,10 +14,10 @@ namespace SlotLogic.UI
         [SerializeField] private RectTransform grid;
         private List<SlotItem> listOfSlots = new List<SlotItem>();
 
-        public event Action<int> OnStartDrag, OnStartRun;
+        public event Action<int> OnStartDrag, OnStartRun, OnClick;
         public event Action<int, int> OnDropItems;
         private int currentDragItem = -1;
-        
+
         public void InitializeSlot(int slotCount)
         {
             for (int i = 0; i < slotCount; i++)
@@ -26,7 +26,7 @@ namespace SlotLogic.UI
                 slotItem.transform.SetParent(grid);
                 listOfSlots.Add(slotItem);
 
-                slotItem.OnItemClicked += HandleItemSelection;
+                slotItem.OnItemClicked += HandleItemClick;
                 slotItem.OnItemBeginDrag += HandleBeginDrag;
                 slotItem.OnItemDroppedOn += HandleDrop;
                 slotItem.OnItemEndDrag += HandleEndDrag;
@@ -55,7 +55,6 @@ namespace SlotLogic.UI
                 return;
             }
             currentDragItem = index;
-            HandleItemSelection(slotItem);
             OnStartDrag?.Invoke(index);
         }
 
@@ -86,9 +85,16 @@ namespace SlotLogic.UI
             ResetDragItem();
         }
 
-        private void HandleItemSelection(SlotItem slotItem)
+        private void HandleItemClick(SlotItem slotItem)
         {
-            //Debug.Log("Click");
+            int index = listOfSlots.IndexOf(slotItem);
+
+            if (index == -1)
+            {
+                return;
+            }
+            
+            OnClick?.Invoke(index);
         }
 
         private void ResetDragItem()

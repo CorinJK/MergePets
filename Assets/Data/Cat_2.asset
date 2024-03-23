@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cat_2
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 2
-  <IsMerge>k__BackingField: 1
   <Name>k__BackingField: Tishka
   <Profit>k__BackingField: 24
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: b5af57c31bbda0e4098cac89fcdb1be4, type: 3}
+  <ItemSpriteOff>k__BackingField: {fileID: 21300000, guid: 53863e0689e2ae34dad63e90e9a14142, type: 3}

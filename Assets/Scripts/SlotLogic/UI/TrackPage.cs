@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -32,7 +33,7 @@ namespace SlotLogic.UI
             }
         }
 
-        public void AddRunCat(Sprite sprite, int profit)
+        public void AddRunCat(Sprite sprite, int profit, UniqueId uniqueId)
         {
             for (int i = 0; i < listOfTrackRun.Count; i++)
             {
@@ -43,11 +44,29 @@ namespace SlotLogic.UI
                 
                 if (listOfTrackRun[i].IsEmpty)
                 {
-                    currentCountRun ++;
-                    currentCountRunText.text = currentCountRun.ToString();
+                    CalculateCountRun(1);
+
+                    listOfTrackRun[i].SetData(sprite, profit, uniqueId);
                     
-                    listOfTrackRun[i].SetData(sprite, profit);
-                    
+                    return;
+                }
+            }
+        }
+
+        private void CalculateCountRun(int value)
+        {
+            currentCountRun = currentCountRun + value;
+            currentCountRunText.text = currentCountRun.ToString();
+        }
+
+        public void ReturnRunCat(UniqueId uniqueId1)
+        {
+            for (int i = 0; i < listOfTrackRun.Count; i++)
+            {
+                if (listOfTrackRun[i].UniqueId == uniqueId1)
+                {
+                    CalculateCountRun(-1);
+                    listOfTrackRun[i].ResetData();
                     return;
                 }
             }

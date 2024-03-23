@@ -35,6 +35,7 @@ namespace SlotLogic
             slotPage.OnDropItems += HandleDropItems;
             slotPage.OnStartDrag += HandleDrag;
             slotPage.OnStartRun += HandleStartRun;
+            slotPage.OnClick += HandleClick;
         }
 
         private void PrepareSlotsData()
@@ -65,7 +66,7 @@ namespace SlotLogic
         private void HandleDrag(int itemIndex)
         {
             EquippedItem equippedItem = slotData.GetItemAt(itemIndex);
-            if (equippedItem.IsEmpty)
+            if (equippedItem.IsEmpty || !equippedItem.IsDrag)
             {
                 return;
             }
@@ -75,31 +76,43 @@ namespace SlotLogic
 
         private void HandleStartRun(int itemIndex)
         {
-            //Debug.Log("HandleStartRun");
-            
             EquippedItem equippedItem = slotData.GetItemAt(itemIndex);
-            if (equippedItem.IsEmpty)
+            if (equippedItem.IsEmpty || !equippedItem.IsDrag)
             {
                 return;
             }
-
-            //Debug.Log(equippedItem.item.ID + " + " + equippedItem.item.Profit);
             
-            trackPage.AddRunCat(equippedItem.item.ItemSprite, equippedItem.item.Profit);
+            slotData.CreateRunCat(itemIndex);
+            trackPage.AddRunCat(equippedItem.item.ItemSprite, equippedItem.item.Profit, equippedItem.UniqueId);
+        }
+
+        private void HandleClick(int itemIndex)
+        {
+            EquippedItem equippedItem = slotData.GetItemAt(itemIndex);
+            
+            if (!equippedItem.IsEmpty && !equippedItem.IsDrag)
+            {
+                slotData.ReturnRunCat(itemIndex);
+                trackPage.ReturnRunCat(equippedItem.UniqueId);
+            }
         }
 
         private void HandleDropItems(int itemIndex1, int itemIndex2)
         {
             EquippedItem equippedItem1 = slotData.GetItemAt(itemIndex1);
             EquippedItem equippedItem2 = slotData.GetItemAt(itemIndex2);
-            
-            if (!equippedItem1.IsEmpty && !equippedItem2.IsEmpty && equippedItem1.item.ID == equippedItem2.item.ID && itemIndex1 != itemIndex2)
+
+            if (equippedItem1.IsDrag && equippedItem2.IsDrag)
             {
+                if (!equippedItem1.IsEmpty && !equippedItem2.IsEmpty &&
+                    equippedItem1.item.ID == equippedItem2.item.ID && itemIndex1 != itemIndex2)
+                {
                     slotData.ProgressDegreeItems(itemIndex1, itemIndex2);
-            }
-            else
-            {
-                slotData.SwapItems(itemIndex1, itemIndex2);
+                }
+                else
+                {
+                    slotData.SwapItems(itemIndex1, itemIndex2);
+                }
             }
         }
 

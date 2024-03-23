@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cat_7
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 7
-  <IsMerge>k__BackingField: 1
   <Name>k__BackingField: Britni
   <Profit>k__BackingField: 1925
   <ItemSprite>k__BackingField: {fileID: 21300000, guid: c6cc7be28ed3f874bbcc6d4f5aa58cdd, type: 3}
+  <ItemSpriteOff>k__BackingField: {fileID: 21300000, guid: e0224fa5c424296488dca53367145d15, type: 3}
