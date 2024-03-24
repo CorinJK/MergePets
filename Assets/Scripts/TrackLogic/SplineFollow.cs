@@ -8,23 +8,15 @@ namespace TrackLogic
     {
         public Transform[] Splines;
 
-        private int pointToGo;
-        private float tParam;
+        private int pointToGo = 0;
+        private float tParam = 0f;
 
         private Vector2 catPosition;
-        private float speed;
-        private bool coroutineAllowed;
+        private float speed = 0.5f;
+        private bool coroutineAllowed = true;
 
         public event Action<SplineFollow> OnFinished;
         private int distanceCounter = 1;
-        
-        private void Start()
-        {
-            pointToGo = 0;
-            tParam = 0f;
-            speed = 0.5f;
-            coroutineAllowed = true;
-        }
 
         private void OnEnable()
         {
@@ -89,7 +81,6 @@ namespace TrackLogic
             if (distanceCounter >= 2)
             {
                 distanceCounter = 0;
-                Debug.Log("Accrual of coins");
                 OnFinished?.Invoke(this);
             }
         }

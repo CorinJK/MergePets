@@ -13,7 +13,8 @@ namespace SlotLogic
         [SerializeField] private Slot slotData;
 
         public List<EquippedItem> equippedItems = new List<EquippedItem>();
-
+        private int countRunCat = 0;
+        
         private void Awake()
         {
             PrepareSlots();
@@ -85,11 +86,12 @@ namespace SlotLogic
         private void HandleStartRun(int itemIndex)
         {
             EquippedItem equippedItem = slotData.GetItemAt(itemIndex);
-            if (equippedItem.IsEmpty || !equippedItem.IsDrag)
+            if (equippedItem.IsEmpty || !equippedItem.IsDrag || countRunCat >= 3)
             {
                 return;
             }
-            
+
+            countRunCat++;
             slotData.CreateRunCat(itemIndex);
             trackPage.AddRunCat(equippedItem.item.ItemSprite, equippedItem.UniqueId);
         }
@@ -100,6 +102,7 @@ namespace SlotLogic
             
             if (!equippedItem.IsEmpty && !equippedItem.IsDrag)
             {
+                countRunCat--;
                 slotData.ReturnRunCat(itemIndex);
                 trackPage.ReturnRunCat(equippedItem.UniqueId);
             }

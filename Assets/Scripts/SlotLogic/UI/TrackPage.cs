@@ -90,8 +90,7 @@ namespace SlotLogic.UI
         {
             int indexFollow = listOfSplineFollow.IndexOf(splineFollow);
             TrackItem trackItem = listOfTrackRun[indexFollow];
-
-            Debug.Log("CoinCounter");
+            
             OnCountCoins?.Invoke(trackItem);
         }
 
