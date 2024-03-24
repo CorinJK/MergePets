@@ -9,6 +9,7 @@ namespace SlotLogic
     {
         [SerializeField] private SlotPage slotPage;
         [SerializeField] private TrackPage trackPage;
+        [SerializeField] private CoinCounter coinCounter;
         [SerializeField] private Slot slotData;
 
         public List<EquippedItem> equippedItems = new List<EquippedItem>();
@@ -36,6 +37,13 @@ namespace SlotLogic
             slotPage.OnStartDrag += HandleDrag;
             slotPage.OnStartRun += HandleStartRun;
             slotPage.OnClick += HandleClick;
+            trackPage.OnCountCoins += AccrualСoins;
+        }
+
+        private void AccrualСoins(TrackItem trackItem)
+        {
+            int amountCoin = slotData.GetAmountCoin(trackItem.UniqueId);
+            coinCounter.IncreaseCoin(amountCoin);
         }
 
         private void PrepareSlotsData()
@@ -83,7 +91,7 @@ namespace SlotLogic
             }
             
             slotData.CreateRunCat(itemIndex);
-            trackPage.AddRunCat(equippedItem.item.ItemSprite, equippedItem.item.Profit, equippedItem.UniqueId);
+            trackPage.AddRunCat(equippedItem.item.ItemSprite, equippedItem.UniqueId);
         }
 
         private void HandleClick(int itemIndex)
@@ -122,6 +130,7 @@ namespace SlotLogic
             slotPage.OnStartDrag -= HandleDrag;
             slotPage.OnStartRun -= HandleStartRun;
             slotData.OnSlotUpdated -= UpdateSlot;
+            trackPage.OnCountCoins -= AccrualСoins;
         }
     }
 }

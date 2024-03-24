@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using TMPro;
+using TrackLogic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,13 +14,18 @@ namespace SlotLogic.UI
         [SerializeField] private TrackItem trackItemPrefab;
         [SerializeField] private RectTransform track;
 
+        [SerializeField] private Transform splineUp;
+        [SerializeField] private Transform splineDown;
+        
         [SerializeField] private TMP_Text maxCountRunText;
         [SerializeField] private TMP_Text currentCountRunText;
         private int currentCountRun;
         
         private List<TrackItem> listOfTrackRun = new List<TrackItem>();
+        private List<SplineFollow> listOfSplineFollow = new List<SplineFollow>();
         
         public event Action OnItemStartRun;
+        public event Action<TrackItem> OnCountCoins;
         
         public void InitializeTrackItem(int slotCount)
         {
@@ -29,11 +35,19 @@ namespace SlotLogic.UI
             {
                 TrackItem trackItem = Instantiate(trackItemPrefab, track.transform.position, Quaternion.identity);
                 trackItem.transform.SetParent(track);
+                
+                SplineFollow splineComponent = trackItem.GetComponent<SplineFollow>();
+                splineComponent.Splines[0] = splineUp;
+                splineComponent.Splines[1] = splineDown;
+                
                 listOfTrackRun.Add(trackItem);
+                listOfSplineFollow.Add(splineComponent);
+
+                splineComponent.OnFinished += CoinCounter;
             }
         }
 
-        public void AddRunCat(Sprite sprite, int profit, UniqueId uniqueId)
+        public void AddRunCat(Sprite sprite, UniqueId uniqueId)
         {
             for (int i = 0; i < listOfTrackRun.Count; i++)
             {
@@ -46,7 +60,7 @@ namespace SlotLogic.UI
                 {
                     CalculateCountRun(1);
 
-                    listOfTrackRun[i].SetData(sprite, profit, uniqueId);
+                    listOfTrackRun[i].SetData(sprite, uniqueId);
                     
                     return;
                 }
@@ -70,6 +84,15 @@ namespace SlotLogic.UI
                     return;
                 }
             }
+        }
+
+        private void CoinCounter(SplineFollow splineFollow)
+        {
+            int indexFollow = listOfSplineFollow.IndexOf(splineFollow);
+            TrackItem trackItem = listOfTrackRun[indexFollow];
+
+            Debug.Log("CoinCounter");
+            OnCountCoins?.Invoke(trackItem);
         }
 
         private bool IsGridFull()

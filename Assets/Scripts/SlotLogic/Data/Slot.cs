@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace SlotLogic.Data
 {
@@ -167,6 +166,24 @@ namespace SlotLogic.Data
         private void InformAboutChange()
         {
             OnSlotUpdated?.Invoke(GetCurrentSlotState());
+        }
+
+        public int GetAmountCoin(UniqueId trackItemUniqueId)
+        {
+            foreach (EquippedItem item in equippedItems)
+            {
+                if (item.IsEmpty)
+                {
+                    continue;
+                }
+                
+                if (trackItemUniqueId == item.UniqueId)
+                {
+                    return item.item.Profit;
+                }
+            }
+            
+            return 0;
         }
     }
 
